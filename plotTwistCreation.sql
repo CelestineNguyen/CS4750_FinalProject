@@ -152,6 +152,10 @@ INSERT INTO review (review_id, book_id, user_id, rating, review_text, created_at
 (6, 2, 1, 5, 'Andy Weir does it again! Funny, smart, and nerdy in the best way.', '2023-08-01'),
 (7, 1, 3, 4, 'A good read. Helped me reflect on life choices in a unique way.', '2023-04-25');
 
+INSERT INTO nyt_bestsellers (nyt_bestsellers_id, book_id, date_nyt, ranking) VALUES
+(1, 1, '2025-03-23', 1),  
+(2, 2, '2025-03-23', 2),  
+(3, 3, '2025-03-23', 3);  
 
 -- Views
 -- referenced: https://neon.tech/postgresql/postgresql-aggregate-functions/postgresql-string_agg-function
@@ -201,7 +205,9 @@ SELECT
     lt.type_name AS list_type, 
     u.username AS list_owner,
     COALESCE(STRING_AGG(DISTINCT b.title, ', '), 'No Books in List') AS books,
-    COALESCE(AVG(r.rating)::NUMERIC(3,1), NULL) AS owner_rating 
+    COALESCE(STRING_AGG(DISTINCT b.book_id::TEXT, ', '), 'No Books') AS book_ids,
+    COALESCE(STRING_AGG(DISTINCT r.rating::TEXT, ', '), NULL) AS owner_ratings,
+    COALESCE(AVG(r.rating)::NUMERIC(3,1), NULL) AS avg_owner_rating
 FROM lists l
 JOIN list_types lt ON l.list_type_id = lt.list_type_id
 JOIN users u ON l.user_id = u.user_id
@@ -209,3 +215,19 @@ LEFT JOIN list_books lb ON l.list_id = lb.list_id
 LEFT JOIN books b ON lb.book_id = b.book_id
 LEFT JOIN review r ON b.book_id = r.book_id AND r.user_id = l.user_id 
 GROUP BY l.list_id, lt.type_name, u.username;
+
+CREATE VIEW per_row_owner_booklist_and_rating AS
+SELECT 
+    l.list_id,
+    l.list_name,
+    lt.type_name AS list_type, 
+    u.username AS list_owner,
+    b.book_id,
+    b.title AS book_title,
+    r.rating AS owner_rating 
+FROM lists l
+JOIN list_types lt ON l.list_type_id = lt.list_type_id
+JOIN users u ON l.user_id = u.user_id
+LEFT JOIN list_books lb ON l.list_id = lb.list_id
+LEFT JOIN books b ON lb.book_id = b.book_id
+LEFT JOIN review r ON b.book_id = r.book_id AND r.user_id = l.user_id;
