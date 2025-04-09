@@ -74,10 +74,15 @@ WSGI_APPLICATION = 'plot_twist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'group11',
+        'USER': 'group11',
+        'PASSWORD': 'X6nzF9M4',
+        'HOST': 'bastion.cs.virginia.edu',
+        'PORT': '5432',  
     }
 }
+
 
 
 # Password validation
