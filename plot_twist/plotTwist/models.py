@@ -9,7 +9,7 @@ class BookDetails(models.Model):
     date_published = models.DateField(null=True)
     description = models.TextField(null=True)
     average_rating = models.FloatField(null=True)
-    authors = models.TextField
+    authors = models.TextField()
 
     class Meta:
         db_table = 'book_details'
