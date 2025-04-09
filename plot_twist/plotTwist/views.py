@@ -5,6 +5,7 @@ from django.contrib.auth import login
 # Referenced: https://www.w3schools.com/django/django_views.php
 
 from django.shortcuts import render
+from .models import BookDetails
 
 def home(request):
     return render(request, "home.html")
@@ -22,3 +23,7 @@ def register(request):
         form = UserCreationForm()
 
     return render(request, "register.html", {"form": form})
+
+def all_books(request):
+    books = BookDetails.objects.all()
+    return render(request, 'books/all_books.html', {'books': books})
