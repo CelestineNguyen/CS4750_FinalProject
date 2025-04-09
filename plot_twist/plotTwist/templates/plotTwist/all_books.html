@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book List</title>
+</head>
+<body>
+    <h1>Books in the Library</h1>
+    {% for book in books %}
+        <div style="margin-bottom: 20px;">
+            <h2>{{ book.title }}</h2>
+            <p><strong>Author(s):</strong> {{ book.authors }}</p>
+            <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+            <p><strong>Pages:</strong> {{ book.pages }}</p>
+            <p><strong>Published:</strong> {{ book.date_published }}</p>
+            <p><strong>Rating:</strong> {{ book.average_rating }}</p>
+            <p>{{ book.description }}</p>
+            <hr>
+        </div>
+    {%  endfor %}
+</body>
+</html>
