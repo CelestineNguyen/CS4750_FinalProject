@@ -1,7 +1,39 @@
-from django.shortcuts import render
-from .models import BookDetails
+from django.shortcuts import render, redirect
+from .models import BookDetails, Lists, ListBooks, Users
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
-# Create your views here.
+
 def all_books(request):
+    print(f"logged-in user: {request.user}")
+    # will need to add logged in user once that gets working
     books = BookDetails.objects.all()
-    return render(request, 'plotTwist/all_books.html', {'books': books})
+    user = Users.objects.get(user_id=6)
+    user_lists = Lists.objects.filter(user=user)
+
+    if request.method == "POST":
+        list_id = request.POST.get("list_id")
+        book_id = request.POST.get("book_id")
+
+        if list_id and book_id:
+            # Check if the book is already in the selected list
+            existing_entry = ListBooks.objects.filter(list_id=list_id, book_id=book_id).exists()
+            if existing_entry:
+                # Add a message for the duplicate case
+                list_name = Lists.objects.get(list_id=list_id).list_name
+                messages.warning(request, f"This book is already in the list '{list_name}'.")
+            else:
+                # Add the book to the list and display a success message
+                ListBooks.objects.create(
+                    list_id=list_id,
+                    book_id=book_id
+                )
+                list_name = Lists.objects.get(list_id=list_id).list_name
+                messages.success(request, f"The book has been successfully added to the list '{list_name}'.")
+
+            return redirect('all_books')  # Redirect back to the same page (or wherever appropriate)
+
+    return render(request, 'plotTwist/all_books.html', {
+        'books': books,
+        'user_lists': user_lists
+    })
