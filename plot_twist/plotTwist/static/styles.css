@@ -1,18 +1,91 @@
+/* General layout */
 body {
     background-color: #f9f9f9;
     font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0 1rem;
 }
 
-nav a.button-link {
+/* Header */
+header {
+    background-color: #ffffff;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+/* Navigation bar */
+nav {
+    margin-top: 0.5rem;
+}
+
+nav a.button-link,
+nav form button {
     display: inline-block;
     padding: 0.5em 1em;
     background-color: #0077cc;
     color: white;
     text-decoration: none;
+    border: none;
     border-radius: 6px;
     margin-right: 0.5em;
+    font-size: 1rem;
+    cursor: pointer;
 }
 
-nav a.button-link:hover {
+nav a.button-link:hover,
+nav form button:hover {
     background-color: #005fa3;
+}
+
+/* Book cards */
+.book-container {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+/* Dropdown */
+.dropdown {
+    width: 100%;
+    max-width: 500px;
+    height: 40px;
+    margin-top: 0.5rem;
+}
+
+/* Alerts */
+.alert-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    padding: 10px;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    width: 95%;
+    margin: auto;
+    text-align: center;
+    font-weight: bold;
+}
+
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert.warning {
+    background-color: #fff3cd;
+    color: #856404;
 }

@@ -1,92 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Books</title>
-    <style>
-        .book-container {
-            margin-bottom: 20px;
-        }
+{% extends "base.html" %}
+{% block title %}All Books{% endblock %}
+{% block content %}
 
-        .dropdown {
-            width: 500px;
-            height: 40px;
-        }
+<style>
+    .book-container {
+        margin-bottom: 20px;
+    }
 
-        .alert-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            padding: 10px;
-        }
+    .dropdown {
+        width: 500px;
+        height: 40px;
+    }
 
-        .alert {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            width: 95%; /* Optional: make it responsive */
-            margin: auto; /* Center the alerts horizontally */
-            text-align: center; /* Center text */
-        }
+    .alert-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+        padding: 10px;
+    }
 
-        .alert.success {
-            background-color: #d4edda;
-            color: #155724;
-        }
+    .alert {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        width: 95%;
+        margin: auto;
+        text-align: center;
+    }
 
-        .alert.warning {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-    </style>
-</head>
-<body>
-    <!-- Feedback Messages -->
-    {% if messages %}
-        <div class="alert-container">
-            {% for message in messages %}
-                <div class="alert {{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+    .alert.success {
+        background-color: #d4edda;
+        color: #155724;
+    }
 
-    <h1>All Books</h1>
+    .alert.warning {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+</style>
 
-    {% for book in books %}
-        <div class="book-container">
-            <h2>{{ book.title }}</h2>
-            <p><strong>Author(s):</strong> {{ book.authors }}</p>
-            <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-            <p><strong>Pages:</strong> {{ book.pages }}</p>
-            <p><strong>Published:</strong> {{ book.date_published }}</p>
-            <p><strong>Rating:</strong> {{ book.average_rating }}</p>
-            <p>{{ book.description }}</p>
+<!-- Feedback Messages -->
+{% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
-            <!-- Dropdown Form -->
-            <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="book_id" value="{{ book.book_id }}">
-                <label for="list_id_{{ book.book_id }}">Add to List:</label>
-                {% if user_lists %}
-                    <select name="list_id" id="list_id_{{ book.book_id }}" class="dropdown" aria-label="Select a list">
-                        <option value="" disabled selected>Choose a list</option>
-                        {% for list in user_lists %}
-                            <option value="{{ list.list_id }}">{{ list.list_name }}</option>
-                        {% endfor %}
-                    </select>
-                {% else %}
-                    <p>No lists available.</p>
-                {% endif %}
-                <button type="submit" title="Add this book to the selected list">Add</button>
-            </form>
+<h1>All Books</h1>
 
-            <hr>
-        </div>
-    {% endfor %}
-</body>
-</html>
+{% for book in books %}
+    <div class="book-container">
+        <h2>{{ book.title }}</h2>
+        <p><strong>Author(s):</strong> {{ book.authors }}</p>
+        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+        <p><strong>Pages:</strong> {{ book.pages }}</p>
+        <p><strong>Published:</strong> {{ book.date_published }}</p>
+        <p><strong>Rating:</strong> {{ book.average_rating }}</p>
+        <p>{{ book.description }}</p>
+
+        <!-- Dropdown Form -->
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="book_id" value="{{ book.book_id }}">
+            <label for="list_id_{{ book.book_id }}">Add to List:</label>
+            {% if user_lists %}
+                <select name="list_id" id="list_id_{{ book.book_id }}" class="dropdown" aria-label="Select a list">
+                    <option value="" disabled selected>Choose a list</option>
+                    {% for list in user_lists %}
+                        <option value="{{ list.list_id }}">{{ list.list_name }}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                <p>No lists available.</p>
+            {% endif %}
+            <button type="submit" title="Add this book to the selected list">Add</button>
+        </form>
+
+        <hr>
+    </div>
+{% endfor %}
+
+{% endblock %}
