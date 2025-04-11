@@ -11,19 +11,18 @@ def all_books(request):
     #user = Users.objects.get(user_id=6)
     user_lists = Lists.objects.filter(user=request.user)
 
+    # Asked chat to help me to display all the lists of a signed in user and allow the user to add a book to one of
+    # those lists
     if request.method == "POST":
         list_id = request.POST.get("list_id")
         book_id = request.POST.get("book_id")
 
         if list_id and book_id:
-            # Check if the book is already in the selected list
             existing_entry = ListBooks.objects.filter(list_id=list_id, book_id=book_id).exists()
             if existing_entry:
-                # Add a message for the duplicate case
                 list_name = Lists.objects.get(list_id=list_id).list_name
                 messages.warning(request, f"This book is already in the list '{list_name}'.")
             else:
-                # Add the book to the list and display a success message
                 ListBooks.objects.create(
                     list_id=list_id,
                     book_id=book_id
@@ -31,7 +30,7 @@ def all_books(request):
                 list_name = Lists.objects.get(list_id=list_id).list_name
                 messages.success(request, f"The book has been successfully added to the list '{list_name}'.")
 
-            return redirect('all_books')  # Redirect back to the same page (or wherever appropriate)
+            return redirect('all_books')  # Redirect back to the same page
 
     return render(request, 'plotTwist/all_books.html', {
         'books': books,
