@@ -231,3 +231,25 @@ JOIN users u ON l.user_id = u.user_id
 LEFT JOIN list_books lb ON l.list_id = lb.list_id
 LEFT JOIN books b ON lb.book_id = b.book_id
 LEFT JOIN review r ON b.book_id = r.book_id AND r.user_id = l.user_id;
+
+-- alter table to make email optional
+ALTER TABLE users ALTER COLUMN email DROP NOT NULL;
+-- Remove the UNIQUE constraint from the email column
+ALTER TABLE users DROP CONSTRAINT users_email_key;
+
+
+-- create trigger to add new user after registration
+CREATE OR REPLACE FUNCTION sync_auth_user_to_users()
+RETURNS trigger AS $$
+BEGIN
+    INSERT INTO users (user_id, username, password, email)
+    VALUES (NEW.id, NEW.username, NEW.password, NEW.email);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_sync_auth_user
+AFTER INSERT ON auth_user
+FOR EACH ROW
+EXECUTE FUNCTION sync_auth_user_to_users();
+
