@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 class BookDetails(models.Model):
@@ -41,7 +41,7 @@ class Lists(models.Model):
     list_id = models.IntegerField(primary_key=True)
     list_name = models.TextField(blank=True, null=True)
     list_type = models.ForeignKey(ListTypes, models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
