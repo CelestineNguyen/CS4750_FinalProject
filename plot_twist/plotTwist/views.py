@@ -8,8 +8,8 @@ def all_books(request):
     print(f"logged-in user: {request.user}")
     # will need to add logged in user once that gets working
     books = BookDetails.objects.all()
-    user = Users.objects.get(user_id=6)
-    user_lists = Lists.objects.filter(user=user)
+    #user = Users.objects.get(user_id=6)
+    user_lists = Lists.objects.filter(user=request.user)
 
     if request.method == "POST":
         list_id = request.POST.get("list_id")
