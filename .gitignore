@@ -1,0 +1,29 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+env/
+venv/
+.venv/
+
+# Django database
+plot_twist/db.sqlite3
+
+# Environment variables / secrets
+.env
+
+# Logs
+*.log
+
+# Migrations
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Static and media files
+staticfiles/
+media/
+
+# OS junk files
+.DS_Store
+Thumbs.db
