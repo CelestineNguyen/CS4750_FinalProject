@@ -4,7 +4,7 @@
 {% block content %}
 <h1>Your Lists</h1>
 
-<!-- Form to create new list -->
+<!-- Create new list form -->
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
@@ -19,19 +19,79 @@
 
 <hr>
 
+<!-- Update Lists Button -->
+<button id="edit-toggle" onclick="toggleEditMode()">Update Lists</button>
+
 {% if user_lists %}
     {% for list in user_lists %}
-        <h2>{{ list.list_name }}</h2>
-        <ul>
-            {% for item in list.listbooks_set.all %}
-                <li>{{ item.book.title }} by {{ item.book.authors }}</li>
-            {% empty %}
-                <li>No books in this list yet.</li>
-            {% endfor %}
-        </ul>
+        <div class="list-block" data-list-id="{{ list.list_id }}">
+            <!-- Editable List Name -->
+            <form method="POST" action="{% url 'rename_list' list.list_id %}" class="rename-form">
+                {% csrf_token %}
+                <h2 class="list-title">
+                    <span class="display-name">{{ list.list_name }}</span>
+                    <input class="edit-name" type="text" name="new_name" value="{{ list.list_name }}" style="display:none;" />
+                    <button class="save-name" type="submit" style="display:none;">Save</button>
+                </h2>
+            </form>
+
+            <!-- Delete Entire List -->
+            <form method="POST" action="{% url 'delete_list' list.list_id %}" onsubmit="return confirmDelete()" style="display:none;" class="delete-list-form">
+                {% csrf_token %}
+                <button type="submit" class="delete-list-btn">❌</button>
+            </form>
+
+            <!-- Books -->
+            <ul>
+                {% for item in list.listbooks_set.all %}
+                    <li>
+                        {{ item.book.title }} by {{ item.book.authors }}
+                        <form method="POST" action="{% url 'remove_book' list.list_id item.book.book_id %}" class="delete-book-form" style="display:none; display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-book-btn">❌</button>
+                        </form>
+                    </li>
+                {% empty %}
+                    <li>No books in this list yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
         <hr>
     {% endfor %}
 {% else %}
     <p>You have no lists yet.</p>
 {% endif %}
+
+<script>
+function toggleEditMode() {
+    const editing = document.body.classList.toggle("edit-mode");
+
+    document.querySelectorAll(".edit-name").forEach(input => input.style.display = editing ? "inline-block" : "none");
+    document.querySelectorAll(".display-name").forEach(span => span.style.display = editing ? "none" : "inline-block");
+    document.querySelectorAll(".save-name").forEach(btn => btn.style.display = editing ? "inline-block" : "none");
+    document.querySelectorAll(".delete-book-form").forEach(form => form.style.display = editing ? "inline" : "none");
+    document.querySelectorAll(".delete-list-form").forEach(form => form.style.display = editing ? "inline" : "none");
+}
+
+function confirmDelete() {
+    return confirm("Are you sure you want to delete this entire list?");
+}
+</script>
+
+<style>
+button.delete-book-btn,
+button.delete-list-btn {
+    margin-left: 8px;
+    color: red;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+button.delete-book-btn:hover,
+button.delete-list-btn:hover {
+    text-decoration: underline;
+}
+</style>
+
 {% endblock %}

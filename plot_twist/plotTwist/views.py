@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib import messages
@@ -85,5 +85,26 @@ def view_lists(request):
         "form": form,
     })
 
+def rename_list(request, list_id):
+    if request.method == 'POST':
+        new_name = request.POST.get('new_name', '').strip()
+        if new_name:
+            user_list = get_object_or_404(Lists, list_id=list_id, user=request.user)
+            user_list.list_name = new_name
+            user_list.save()
+            messages.success(request, 'List renamed successfully!')
+    return redirect('view_lists')
 
 
+def delete_list(request, list_id):
+    if request.method == 'POST':
+        user_list = get_object_or_404(Lists, list_id=list_id, user=request.user)
+        user_list.delete()
+        messages.success(request, 'List deleted successfully.')
+    return redirect('view_lists')
+
+def remove_book(request, list_id, book_id):
+    if request.method == 'POST':
+        ListBooks.objects.filter(list_id=list_id, book_id=book_id).delete()
+        messages.success(request, 'Book removed from list.')
+    return redirect('view_lists')
