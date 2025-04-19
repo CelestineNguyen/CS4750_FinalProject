@@ -11,3 +11,9 @@ class CreateListForm(forms.ModelForm):
         widgets = {
             'list_name': forms.TextInput(attrs={'class': 'list-input'}),
         }
+
+    def clean_list_name(self):
+        name = self.cleaned_data.get('list_name')
+        if not name or name.strip() == "":
+            raise forms.ValidationError("List name cannot be empty")
+        return name
