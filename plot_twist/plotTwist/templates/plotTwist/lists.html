@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Your Book Lists{% endblock %}
 
+
 {% block content %}
 <h1>Your Lists</h1>
+
+<!-- Search Bar -->
+<input type="text" id="searchInput" placeholder="Search by book, author, or list name..." style="width: 90%; padding: 8px; margin-bottom: 1rem;" onkeyup="filterLists()">
 
 <!-- Create new list form -->
 <form method="POST">
@@ -16,11 +20,13 @@
         <p class="alert {{ message.tags }}">{{ message }}</p>
     {% endfor %}
 {% endif %}
-
 <hr>
 
 <!-- Update Lists Button -->
 <button id="edit-toggle" onclick="toggleEditMode()">Update Lists</button>
+
+
+
 
 {% if user_lists %}
     {% for list in user_lists %}
@@ -63,20 +69,38 @@
 {% endif %}
 
 <script>
-function toggleEditMode() {
-    const editing = document.body.classList.toggle("edit-mode");
-
-    document.querySelectorAll(".edit-name").forEach(input => input.style.display = editing ? "inline-block" : "none");
-    document.querySelectorAll(".display-name").forEach(span => span.style.display = editing ? "none" : "inline-block");
-    document.querySelectorAll(".save-name").forEach(btn => btn.style.display = editing ? "inline-block" : "none");
-    document.querySelectorAll(".delete-book-form").forEach(form => form.style.display = editing ? "inline" : "none");
-    document.querySelectorAll(".delete-list-form").forEach(form => form.style.display = editing ? "inline" : "none");
-}
-
-function confirmDelete() {
-    return confirm("Are you sure you want to delete this entire list?");
-}
+    function filterLists() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const lists = document.querySelectorAll(".list-block");
+    
+        lists.forEach(list => {
+            const listName = list.querySelector(".list-title").innerText.toLowerCase();
+            const books = list.querySelectorAll("li");
+    
+            let matchFound = listName.includes(input);
+    
+            // Check if any book in this list matches
+            books.forEach(book => {
+                const bookText = book.innerText.toLowerCase();
+                if (bookText.includes(input)) {
+                    matchFound = true;
+                }
+            });
+    
+            // If match found, show entire list (and all books in it)
+            list.style.display = matchFound ? "block" : "none";
+    
+            // Always show all books inside visible lists
+            if (matchFound) {
+                books.forEach(book => {
+                    book.style.display = "list-item";
+                });
+            }
+        });
+    }
 </script>
+    
+    
 
 <style>
 button.delete-book-btn,

@@ -53,6 +53,8 @@
 {% endif %}
 
 <h1>All Books</h1>
+<input type="text" id="bookSearchInput" placeholder="Search by title or author..." style="width: 100%; padding: 8px; margin-bottom: 1rem;" onkeyup="filterBooks()">
+
 
 {% for book in books %}
     <div class="book-container">
@@ -86,4 +88,18 @@
     </div>
 {% endfor %}
 
+<script>
+    function filterBooks() {
+        const input = document.getElementById("bookSearchInput").value.toLowerCase();
+        const books = document.querySelectorAll(".book-container");
+    
+        books.forEach(book => {
+            const title = book.querySelector("h2").innerText.toLowerCase();
+            const author = book.querySelector("p").innerText.toLowerCase(); // first <p> is authors
+            const matches = title.includes(input) || author.includes(input);
+            book.style.display = matches ? "block" : "none";
+        });
+    }
+    </script>
+    
 {% endblock %}
