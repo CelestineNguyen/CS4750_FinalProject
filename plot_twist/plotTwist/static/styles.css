@@ -89,3 +89,8 @@ nav form button:hover {
     background-color: #fff3cd;
     color: #856404;
 }
+.list-input {
+    width: 250px;
+    padding: 6px;
+    font-size: 14px;
+}

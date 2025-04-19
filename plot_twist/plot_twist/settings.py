@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'plot_twist.urls'
+ROOT_URLCONF = 'plotTwist.urls'
 
 TEMPLATES = [
     {

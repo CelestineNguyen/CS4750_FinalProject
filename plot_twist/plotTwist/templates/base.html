@@ -21,6 +21,9 @@
                 <a href="{% url 'login' %}" class="button-link">Login</a>
                 <a href="{% url 'register' %}" class="button-link">Register</a>
             {% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'view_lists' %}" class="button-link">My Lists</a>
+            {% endif %}
         </nav>
     </header>
 

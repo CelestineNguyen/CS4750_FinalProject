@@ -29,4 +29,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', your_views.register, name='register'),
+    path("books/", your_views.all_books, name="all_books"),
+    path('lists/', your_views.view_lists, name='view_lists'),
+
 ]
