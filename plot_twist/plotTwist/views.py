@@ -99,8 +99,13 @@ def rename_list(request, list_id):
 def delete_list(request, list_id):
     if request.method == 'POST':
         user_list = get_object_or_404(Lists, list_id=list_id, user=request.user)
+
+        # Delete all book entries tied to the list
+        ListBooks.objects.filter(list=user_list).delete()
+
+        # Now delete the list itself
         user_list.delete()
-        messages.success(request, 'List deleted successfully.')
+        messages.success(request, 'List and its books deleted successfully.')
     return redirect('view_lists')
 
 def remove_book(request, list_id, book_id):

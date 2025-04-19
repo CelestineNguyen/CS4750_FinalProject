@@ -46,7 +46,7 @@
                 {% for item in list.listbooks_set.all %}
                     <li>
                         {{ item.book.title }} by {{ item.book.authors }}
-                        <form method="POST" action="{% url 'remove_book' list.list_id item.book.book_id %}" class="delete-book-form" style="display:none; display:inline;">
+                        <form method="POST" action="{% url 'remove_book' list.list_id item.book.book_id %}" class="delete-book-form" style="display:none; display:inline-block;">
                             {% csrf_token %}
                             <button type="submit" class="delete-book-btn">❌</button>
                         </form>
