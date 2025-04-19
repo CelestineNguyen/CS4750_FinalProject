@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib import messages
+from django.db.models import Max 
+from .forms import CreateListForm
 
 # Referenced: https://www.w3schools.com/django/django_views.php
 
@@ -19,7 +21,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("home")
+            return redirect("all_books")
     else:
         form = UserCreationForm()
 
@@ -57,3 +59,57 @@ def all_books(request):
         'books': books,
         'user_lists': user_lists
     })
+
+def view_lists(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    user_lists = Lists.objects.filter(user=request.user).prefetch_related('listbooks_set__book')
+    form = CreateListForm()
+
+    if request.method == 'POST':
+        form = CreateListForm(request.POST)
+        if form.is_valid():
+            new_list = form.save(commit=False)
+            new_list.user = request.user
+
+            max_id = Lists.objects.aggregate(Max('list_id'))['list_id__max'] or 0
+            new_list.list_id = max_id + 1
+
+            new_list.save()
+            messages.success(request, "List created successfully!")
+            return redirect("view_lists")
+
+    return render(request, "plotTwist/lists.html", {
+        "user_lists": user_lists,
+        "form": form,
+    })
+
+def rename_list(request, list_id):
+    if request.method == 'POST':
+        new_name = request.POST.get('new_name', '').strip()
+        if new_name:
+            user_list = get_object_or_404(Lists, list_id=list_id, user=request.user)
+            user_list.list_name = new_name
+            user_list.save()
+            messages.success(request, 'List renamed successfully!')
+    return redirect('view_lists')
+
+
+def delete_list(request, list_id):
+    if request.method == 'POST':
+        user_list = get_object_or_404(Lists, list_id=list_id, user=request.user)
+
+        # Delete all book entries tied to the list
+        ListBooks.objects.filter(list=user_list).delete()
+
+        # Now delete the list itself
+        user_list.delete()
+        messages.success(request, 'List and its books deleted successfully.')
+    return redirect('view_lists')
+
+def remove_book(request, list_id, book_id):
+    if request.method == 'POST':
+        ListBooks.objects.filter(list_id=list_id, book_id=book_id).delete()
+        messages.success(request, 'Book removed from list.')
+    return redirect('view_lists')

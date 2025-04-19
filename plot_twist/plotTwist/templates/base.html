@@ -10,15 +10,19 @@
     <header>
         <h1>Plot Twist</h1>
         <nav>
-            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'home' %}" class="button-link">Home</a>
+            <a href="{% url 'all_books' %}" class="button-link">Books</a>
             {% if user.is_authenticated %}
                 <form action="{% url 'logout' %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
                 </form>
             {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login' %}" class="button-link">Login</a>
+                <a href="{% url 'register' %}" class="button-link">Register</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'view_lists' %}" class="button-link">My Lists</a>
             {% endif %}
         </nav>
     </header>

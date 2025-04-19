@@ -29,4 +29,11 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('register/', your_views.register, name='register'),
+    path("books/", your_views.all_books, name="all_books"),
+    path('lists/', your_views.view_lists, name='view_lists'),
+    path('lists/<int:list_id>/rename/', your_views.rename_list, name='rename_list'),
+    path('lists/<int:list_id>/delete/', your_views.delete_list, name='delete_list'),  # ✅ Add this line
+    path('lists/<int:list_id>/remove/<int:book_id>/', your_views.remove_book, name='remove_book'), 
+
+
 ]
