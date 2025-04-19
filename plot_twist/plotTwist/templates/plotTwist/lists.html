@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Your Book Lists{% endblock %}
+
+{% block content %}
+<h1>Your Lists</h1>
+
+<!-- Form to create new list -->
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create New List</button>
+</form>
+
+{% if messages %}
+    {% for message in messages %}
+        <p class="alert {{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<hr>
+
+{% if user_lists %}
+    {% for list in user_lists %}
+        <h2>{{ list.list_name }}</h2>
+        <ul>
+            {% for item in list.listbooks_set.all %}
+                <li>{{ item.book.title }} by {{ item.book.authors }}</li>
+            {% empty %}
+                <li>No books in this list yet.</li>
+            {% endfor %}
+        </ul>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>You have no lists yet.</p>
+{% endif %}
+{% endblock %}

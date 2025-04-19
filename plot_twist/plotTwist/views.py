@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib import messages
+from django.db.models import Max 
+from .forms import CreateListForm
 
 # Referenced: https://www.w3schools.com/django/django_views.php
 
@@ -57,3 +59,31 @@ def all_books(request):
         'books': books,
         'user_lists': user_lists
     })
+
+def view_lists(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    user_lists = Lists.objects.filter(user=request.user).prefetch_related('listbooks_set__book')
+    form = CreateListForm()
+
+    if request.method == 'POST':
+        form = CreateListForm(request.POST)
+        if form.is_valid():
+            new_list = form.save(commit=False)
+            new_list.user = request.user
+
+            max_id = Lists.objects.aggregate(Max('list_id'))['list_id__max'] or 0
+            new_list.list_id = max_id + 1
+
+            new_list.save()
+            messages.success(request, "List created successfully!")
+            return redirect("view_lists")
+
+    return render(request, "plotTwist/lists.html", {
+        "user_lists": user_lists,
+        "form": form,
+    })
+
+
+
