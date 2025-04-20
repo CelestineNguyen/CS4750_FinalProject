@@ -35,6 +35,7 @@ nav {
 
 nav a,
 nav form button {
+    font-family: 'Merriweather', serif;
     color: white;
     text-decoration: none;
     background: none;
@@ -49,14 +50,18 @@ nav form button:hover {
     text-decoration: underline;
 }
 
-/* Book cards */
 .book-container {
-    background-color: #ffffff;
-    padding: 1rem;
-    border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    margin-bottom: 1.5rem;
+    background-color: #a38064;  /* Softer white background */
+    color: #5c4033;  /* Make text dark again */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
 
 /* Dropdown */
 .dropdown {
@@ -115,10 +120,9 @@ nav form button:hover {
 
 
 .overlay-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: transparent;
     padding: 2rem;
     border-radius: 12px;
-    backdrop-filter: blur(2px);
 }
 
 .overlay-card h1 {
