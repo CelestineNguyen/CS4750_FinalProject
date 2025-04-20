@@ -1,48 +1,52 @@
-/* General layout */
-body {
-    background-color: #f9f9f9;
-    font-family: 'Merriweather', serif;
+body, html {
     margin: 0;
     padding: 0;
-    height: 100% ;
-}
-
-/* Header */
-header {
-    background-color: #ffffff;
-    padding: 1rem 0;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 1rem;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 1.8rem;
-}
-
-/* Navigation bar */
-nav {
-    margin-top: 0.5rem;
-}
-
-nav a.button-link,
-nav form button {
+    height: 100%;
     font-family: 'Merriweather', serif;
-    display: inline-block;
-    padding: 0.5em 1em;
-    background-color: #0077cc;
+    color: white;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("img/library.jpg"); /* Adjust path as needed */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    filter: blur(5px) brightness(0.7);
+}
+
+header {
+    text-align: center;
+    padding: 2rem 0 1rem 0;
+}
+
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+
+nav a,
+nav form button {
     color: white;
     text-decoration: none;
+    background: none;
     border: none;
-    border-radius: 6px;
-    margin-right: 0.5em;
-    font-size: 1rem;
+    font-size: 1.1rem;
     cursor: pointer;
+    padding: 0.3rem 0.6rem;
 }
 
-nav a.button-link:hover,
+nav a:hover,
 nav form button:hover {
-    background-color: #005fa3;
+    text-decoration: underline;
 }
 
 /* Book cards */
@@ -99,9 +103,12 @@ nav form button:hover {
 
 
 .homepage-container {
-    position: relative;
-    min-height: 100vh;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 150px); /* accounts for header/nav height */
+    text-align: center;
 }
 
 
@@ -117,28 +124,18 @@ nav form button:hover {
 }
 
 .overlay-card {
-    position: relative;
-    z-index: 2;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem 3rem;
-    color: white;
-    text-align: center;
-    top: 30vh;
-
     background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(2px);
+    padding: 2rem;
     border-radius: 12px;
+    backdrop-filter: blur(2px);
 }
-
 
 .overlay-card h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #fff;
+    color: white;
 }
 
 .overlay-card p {
     font-size: 1.2rem;
-    line-height: 1.5;
 }
