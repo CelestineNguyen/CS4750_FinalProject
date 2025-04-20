@@ -3,7 +3,8 @@ body {
     background-color: #f9f9f9;
     font-family: 'Merriweather', serif;
     margin: 0;
-    padding: 0 1rem;
+    padding: 0;
+    height: 100% ;
 }
 
 /* Header */
@@ -98,31 +99,46 @@ nav form button:hover {
 
 
 .homepage-container {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+
+.homepage-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
     background-image: url("img/library.jpg");
     background-size: cover;
     background-position: center;
-    min-height: 85vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    text-align: center;
+    filter: blur(6px) brightness(0.8);
+    z-index: 1;
 }
 
 .overlay-card {
-    background-color: rgba(255, 255, 255, 0.88);
-    padding: 2rem 3rem;
-    border-radius: 10px;
+    position: relative;
+    z-index: 2;
     max-width: 600px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Merriweather', serif;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+    color: white;
+    text-align: center;
+    top: 30vh;
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(2px);
+    border-radius: 12px;
 }
 
+
 .overlay-card h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 1rem;
+    color: #fff;
 }
 
 .overlay-card p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    line-height: 1.5;
 }
