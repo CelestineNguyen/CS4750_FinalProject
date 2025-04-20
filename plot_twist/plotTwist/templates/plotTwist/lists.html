@@ -30,7 +30,7 @@
 
 {% if user_lists %}
     {% for list in user_lists %}
-        <div class="list-block" data-list-id="{{ list.list_id }}">
+        <div class="list-container list-block" data-list-id="{{ list.list_id }}">
             <!-- Editable List Name -->
             <form method="POST" action="{% url 'rename_list' list.list_id %}" class="rename-form">
                 {% csrf_token %}

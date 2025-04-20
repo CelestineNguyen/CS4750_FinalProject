@@ -36,7 +36,7 @@ nav {
 nav a,
 nav form button {
     font-family: 'Merriweather', serif;
-    color: white;
+    color: tan;
     text-decoration: none;
     background: none;
     border: none;
@@ -51,8 +51,20 @@ nav form button:hover {
 }
 
 .book-container {
-    background-color: #a38064;  /* Softer white background */
-    color: #5c4033;  /* Make text dark again */
+    background-color: #a38064;
+    color: #5c4033;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.list-container {
+    background-color: #a38064;
+    color: #5c4033;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -63,7 +75,6 @@ nav form button:hover {
 }
 
 
-/* Dropdown */
 .dropdown {
     width: 100%;
     max-width: 500px;
@@ -71,7 +82,6 @@ nav form button:hover {
     margin-top: 0.5rem;
 }
 
-/* Alerts */
 .alert-container {
     position: fixed;
     top: 0;
