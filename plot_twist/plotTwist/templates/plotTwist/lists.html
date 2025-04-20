@@ -99,14 +99,44 @@
         });
     }
 </script>
-    
-    
+
+<script>
+    let editMode = false;
+
+    function toggleEditMode() {
+        editMode = !editMode;
+
+        // Toggle display of rename inputs and save buttons
+        document.querySelectorAll(".edit-name").forEach(el => {
+            el.style.display = editMode ? "inline-block" : "none";
+        });
+
+        document.querySelectorAll(".save-name").forEach(el => {
+            el.style.display = editMode ? "inline-block" : "none";
+        });
+
+        // Toggle display of delete list buttons
+        document.querySelectorAll(".delete-list-form").forEach(form => {
+            form.style.display = editMode ? "inline-block" : "none";
+        });
+
+        // Toggle display of delete book buttons
+        document.querySelectorAll(".delete-book-form").forEach(form => {
+            form.style.display = editMode ? "inline-block" : "none";
+        });
+
+        // Optionally update the button text
+        const toggleBtn = document.getElementById("edit-toggle");
+        toggleBtn.textContent = editMode ? "Done" : "Update Lists";
+    }
+</script>
+
 
 <style>
 button.delete-book-btn,
 button.delete-list-btn {
-    margin-left: 8px;
-    color: red;
+    margin-left: 5px;
+    color: rosybrown;
     font-weight: bold;
     background: none;
     border: none;
