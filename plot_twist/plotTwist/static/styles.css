@@ -112,16 +112,7 @@ nav form button:hover {
 }
 
 
-.homepage-container::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("img/library.jpg");
-    background-size: cover;
-    background-position: center;
-    filter: blur(6px) brightness(0.8);
-    z-index: 1;
-}
+
 
 .overlay-card {
     background: rgba(255, 255, 255, 0.05);
