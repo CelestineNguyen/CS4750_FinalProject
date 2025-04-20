@@ -6,16 +6,17 @@
 <div class="lists-header">
     <h1>Your Lists</h1>
 
-    <!-- Search + Create List Row -->
-    <div class="lists-action-row">
-    <input type="text" id="searchInput" name="new_list_name"
-           placeholder="Enter new list name..." onkeyup="filterLists()" />
+     <div class="search-create-row">
+        <!-- Search Input (not in a form) -->
+        <input type="text" id="searchInput" placeholder="Search your lists..." onkeyup="filterLists()" class="search-bar">
 
-    <form method="POST" class="create-list-form">
-        {% csrf_token %}
-        <button type="submit">Create New List</button>
-    </form>
-</div>
+        <!-- Create List Form -->
+        <form method="POST" class="create-list-form">
+            {% csrf_token %}
+            <input type="text" name="list_name" placeholder="New list name..." required class="list-input">
+            <button type="submit">Create New List</button>
+        </form>
+    </div>
 
 
     {% if messages %}

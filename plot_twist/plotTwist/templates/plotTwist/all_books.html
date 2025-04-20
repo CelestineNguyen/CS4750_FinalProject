@@ -2,6 +2,24 @@
 {% block title %}All Books{% endblock %}
 {% block content %}
 
+<h1 class="books-header">All Books</h1>
+
+<div class="search-books-container">
+    <input type="text" id="bookSearchInput" placeholder="Search by title or author..." class="search-bar" onkeyup="filterBooks()">
+</div>
+
+<!-- Feedback Messages -->
+{% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
 <style>
     .book-container {
         margin-bottom: 20px;
@@ -52,8 +70,6 @@
     </div>
 {% endif %}
 
-<h1>All Books</h1>
-<input type="text" id="bookSearchInput" placeholder="Search by title or author..." style="width: 100%; padding: 8px; margin-bottom: 1rem;" onkeyup="filterBooks()">
 
 
 {% for book in books %}
