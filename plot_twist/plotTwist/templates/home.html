@@ -3,15 +3,18 @@
 {% block title %}Home - Plot Twist{% endblock %}
 
 {% block content %}
-<div class="book-container" style="text-align: center;">
-    <h1>Welcome to PlotTwist!</h1>
-    <p style="font-size: 1.2rem;">
-        {% if user.is_authenticated %}
-            Hello, <strong>{{ user.username }}</strong>! Ready to explore your book world?
-        {% else %}
-            Sign in or register to track your reading journey.
-        {% endif %}
+<div class="homepage-container">
+    <div class="overlay-card">
+        <h1>Welcome to PlotTwist!</h1>
+        <p style="font-size: 1.2rem;">
+            {% if user.is_authenticated %}
+                Hello, <strong>{{ user.username }}</strong>! Ready to explore your book world?
+            {% else %}
+                Sign in or register to track your reading journey.
+            {% endif %}
+    </div>
 </div>
 {% endblock %}
+
 
 
