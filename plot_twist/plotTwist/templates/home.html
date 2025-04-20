@@ -3,10 +3,15 @@
 {% block title %}Home - Plot Twist{% endblock %}
 
 {% block content %}
-  <h1>Welcome to PlotTwist!</h1>
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}!</p>
-    {% else %}
-        <p>You are not logged in.</p>
-    {% endif %}
+<div class="book-container" style="text-align: center;">
+    <h1>📚 Welcome to Plot Twist!</h1>
+    <p style="font-size: 1.2rem;">
+        {% if user.is_authenticated %}
+            Hello, <strong>{{ user.username }}</strong>! Ready to explore your book world?
+        {% else %}
+            Sign in or register to track your reading journey.
+        {% endif %}
+    </p>
+    <img src="{% static 'img/bookshelf.png' %}" alt="Bookshelf" style="max-width: 400px; margin-top: 1rem;">
+</div>
 {% endblock %}
