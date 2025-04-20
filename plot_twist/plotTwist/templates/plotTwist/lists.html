@@ -45,7 +45,7 @@
 
             <form method="POST" action="{% url 'delete_list' list.list_id %}" onsubmit="return confirmDelete()" style="display:none;" class="delete-list-form">
                 {% csrf_token %}
-                <button type="submit" class="delete-list-btn">❌</button>
+                <button type="submit" class="delete-list-btn">X</button>
             </form>
 
             <ul>
@@ -54,7 +54,7 @@
                         {{ item.book.title }} by {{ item.book.authors }}
                         <form method="POST" action="{% url 'remove_book' list.list_id item.book.book_id %}" class="delete-book-form" style="display:none; display:inline-block;">
                             {% csrf_token %}
-                            <button type="submit" class="delete-book-btn">❌</button>
+                            <button type="submit" class="delete-book-btn">X</button>
                         </form>
                     </li>
                 {% empty %}
@@ -135,9 +135,11 @@
 <style>
 button.delete-book-btn,
 button.delete-list-btn {
-    margin-left: 5px;
-    color: rosybrown;
+    margin-left: 400px;
+    color: #4e342e;
+    font-family: 'Nunito', serif;
     font-weight: bold;
+    font-size: 1.1rem;
     background: none;
     border: none;
     cursor: pointer;
