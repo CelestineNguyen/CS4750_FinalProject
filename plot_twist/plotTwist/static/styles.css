@@ -146,9 +146,10 @@ nav form button:hover {
 
 .create-list-form {
     display: flex;
-    align-items: center;
+    align-items: center; /* ensures vertical alignment */
     gap: 0.5rem;
-    height: 44px;
+    padding: 0; /* just in case */
+    margin: 0;
 }
 
 .create-list-form .list-input {
@@ -351,4 +352,17 @@ nav form button:hover {
 .search-create-row input,
 .search-create-row form {
     vertical-align: middle;
+}
+
+/* Ensure exact matching height and alignment */
+.search-bar,
+.list-input,
+.create-list-form button {
+    height: 44px;
+    padding: 0 12px;
+    font-size: 1rem;
+    line-height: 1;
+    box-sizing: border-box;
+    vertical-align: middle;
+    display: inline-block;
 }
