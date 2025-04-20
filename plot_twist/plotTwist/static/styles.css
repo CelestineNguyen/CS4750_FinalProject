@@ -305,17 +305,30 @@ nav form button:hover {
     white-space: nowrap;
 }
 
+.home-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
 .homepage-container {
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 150px); /* accounts for header/nav height */
+    justify-content: flex-start;
+    padding-top: 8vh;
     text-align: center;
 }
 
 
+.homepage-footer {
+    text-align: center;
+    color: tan;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-style: italic;
+}
 
 
 .overlay-card {
