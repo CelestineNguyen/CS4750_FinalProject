@@ -98,7 +98,7 @@ nav form button:hover {
 
 
 .homepage-container {
-    background-image: url('plotTwist/static/img/library.jpg');
+    background-image: url("img/library.jpg");
     background-size: cover;
     background-position: center;
     min-height: 85vh;
