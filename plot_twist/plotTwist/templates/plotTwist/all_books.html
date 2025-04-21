@@ -84,10 +84,10 @@
 
         <form method="POST">
         {% csrf_token %}
-        <input type="hidden" name="book_id" value="{{ book.book_id }}">
-        <label for="list_id_{{ book.book_id }}" class="dropdown-label">Add to List:</label>
+        <input type="hidden" name="google_id" value="{{ book.google_id }}">
+        <label for="list_id_{{ book.google_id }}" class="dropdown-label">Add to List:</label>
         {% if user_lists %}
-            <select name="list_id" id="list_id_{{ book.book_id }}" class="dropdown-select">
+            <select name="list_id" id="list_id_{{ book.google_id }}" class="dropdown-select">
                 <option value="" disabled selected>Choose a list</option>
                 {% for list in user_lists %}
                     <option value="{{ list.list_id }}">{{ list.list_name }}</option>
