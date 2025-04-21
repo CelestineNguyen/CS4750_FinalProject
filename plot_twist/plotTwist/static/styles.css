@@ -60,6 +60,7 @@ nav form button:hover {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+
 }
 
 .books-header {
@@ -320,13 +321,14 @@ nav form button:hover {
     justify-content: flex-start;
     padding-top: 8vh;
     text-align: center;
+
 }
 
 
 .homepage-footer {
     text-align: center;
     color: tan;
-    padding: 0.5rem;
+    padding-bottom: 3rem;
     font-size: 1rem;
     font-style: italic;
 }
@@ -426,4 +428,63 @@ nav form button:hover {
     color: #5c4033;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+=======
+.book-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline; /* this aligns text and X vertically */
+  padding: 0.2rem 0;
+}
+
+.book-list-item span {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.delete-book-btn {
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  color: #5c4033;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+
+button.delete-book-btn:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding-bottom: 3rem;
+
+}
+
+.page-button {
+  font-family: 'Merriweather', serif;
+  background-color: tan;
+  color: #5c4033;
+  padding: 0.5rem 1.2rem;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid #5c4033;
+  transition: background-color 0.2s ease;
+}
+
+.page-button:hover {
+  background-color: #e4c59e;
+  color: #3b2a1a;
+}
+
+.lists-wrapper {
+  padding-bottom: 3rem;
 }

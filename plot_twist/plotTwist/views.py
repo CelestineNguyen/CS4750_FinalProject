@@ -37,7 +37,7 @@ def all_books(request):
     # Fetch from Google Books API
     query = request.GET.get("q") or "fiction"  # default to fiction
     page = int(request.GET.get("page", 1))
-    books_per_page = 40
+    books_per_page = 20
     start_index = (page - 1) * books_per_page
 
 
