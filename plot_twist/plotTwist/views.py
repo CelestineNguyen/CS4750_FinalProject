@@ -35,10 +35,14 @@ def all_books(request):
     user_lists = Lists.objects.filter(user=request.user)
 
     # Fetch from Google Books API
-    query = request.GET.get("q", "fiction") # default to fiction
+    query = request.GET.get("q") or "fiction"  # default to fiction
+    page = int(request.GET.get("page", 1))
+    books_per_page = 40
+    start_index = (page - 1) * books_per_page
+
 
     # Using the Google Books API (without API key)
-    google_books_url = f"https://www.googleapis.com/books/v1/volumes?q={query}&orderBy=relevance&maxResults=20"
+    google_books_url = f"https://www.googleapis.com/books/v1/volumes?q={query}&orderBy=relevance&startIndex={start_index}&maxResults={books_per_page}"
 
     try:
         response = requests.get(google_books_url)
@@ -47,6 +51,8 @@ def all_books(request):
     except Exception as e:
         google_books = []
         messages.error(request, f"Google Books API error: {e}")
+
+    print("Google Books search query:", query)
 
     # format the results
     books = []
@@ -110,6 +116,7 @@ def all_books(request):
     return render(request, 'plotTwist/all_books.html', {
         "books": books,
         'user_lists': user_lists,
+        'page': page,
     })
 
 

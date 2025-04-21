@@ -5,7 +5,15 @@
 <h1 class="books-header">All Books</h1>
 
 <div class="search-books-container">
-    <input type="text" id="bookSearchInput" placeholder="Search by title or author..." class="search-bar" onkeyup="filterBooks()">
+    <input
+      type="text"
+      id="liveSearchInput"
+      placeholder="Search books..."
+      class="search-bar"
+      oninput="liveSearchBooks()"
+      autocomplete="off"
+      value="{{ request.GET.q|default:'' }}"
+    >
 </div>
 
 <!-- Feedback Messages -->
@@ -71,7 +79,6 @@
 {% endif %}
 
 
-
 {% for book in books %}
     <div class="book-container">
         <h2>{{ book.title }}</h2>
@@ -105,18 +112,31 @@
     </div>
 {% endfor %}
 
+<div class="pagination-controls" style="text-align: center; margin: 2rem 0;">
+    {% if page > 1 %}
+        <a href="?q={{ request.GET.q|default:'fiction' }}&page={{ page|add:-1 }}">← Previous</a>
+    {% endif %}
+    {% if books|length == 40 %}
+        <a href="?q={{ request.GET.q|default:'fiction' }}&page={{ page|add:1 }}">Next →</a>
+    {% endif %}
+</div>
+
+
 <script>
-    function filterBooks() {
-        const input = document.getElementById("bookSearchInput").value.toLowerCase();
-        const books = document.querySelectorAll(".book-container");
-    
-        books.forEach(book => {
-            const title = book.querySelector("h2").innerText.toLowerCase();
-            const author = book.querySelector("p").innerText.toLowerCase(); // first <p> is authors
-            const matches = title.includes(input) || author.includes(input);
-            book.style.display = matches ? "block" : "none";
-        });
-    }
-    </script>
+let debounceTimeout = null;
+
+function liveSearchBooks() {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+        const query = document.getElementById("liveSearchInput").value;
+        window.location.href = `?q=${encodeURIComponent(query)}&page=1`;
+    }, 500); // waits 500ms after typing
+}
+</script>
+
     
 {% endblock %}
+
+
+
+
