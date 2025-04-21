@@ -60,6 +60,7 @@ nav form button:hover {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+
 }
 
 .books-header {
@@ -320,13 +321,14 @@ nav form button:hover {
     justify-content: flex-start;
     padding-top: 8vh;
     text-align: center;
+
 }
 
 
 .homepage-footer {
     text-align: center;
     color: tan;
-    padding: 0.5rem;
+    padding-bottom: 3rem;
     font-size: 1rem;
     font-style: italic;
 }
@@ -453,6 +455,8 @@ button.delete-book-btn:hover {
   justify-content: center;
   gap: 1rem;
   margin: 2rem 0;
+  padding-bottom: 3rem;
+
 }
 
 .page-button {
