@@ -475,3 +475,8 @@ button.delete-book-btn:hover {
   color: #3b2a1a;
 }
 
+.lists-wrapper {
+  padding-bottom: 3rem;
+}
+
+
