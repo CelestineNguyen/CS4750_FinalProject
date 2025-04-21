@@ -74,6 +74,7 @@ def all_books(request):
         # get book info from Google again using the volume ID
         book_data = next((book for book in books if book["google_id"] == google_id), None)
 
+
         if list_id and book_data:
             try:
                 # save book to DB if not already there
