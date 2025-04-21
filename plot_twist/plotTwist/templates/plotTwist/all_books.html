@@ -112,14 +112,15 @@
     </div>
 {% endfor %}
 
-<div class="pagination-controls" style="text-align: center; margin: 2rem 0;">
+<div class="pagination-controls">
     {% if page > 1 %}
-        <a href="?q={{ request.GET.q|default:'fiction' }}&page={{ page|add:-1 }}">← Previous</a>
+        <a class="page-button" href="?q={{ request.GET.q|default:'fiction' }}&page={{ page|add:-1 }}">← Previous</a>
     {% endif %}
-    {% if books|length == 40 %}
-        <a href="?q={{ request.GET.q|default:'fiction' }}&page={{ page|add:1 }}">Next →</a>
+    {% if books|length == 20 %}
+        <a class="page-button" href="?q={{ request.GET.q|default:'fiction' }}&page={{ page|add:1 }}">Next →</a>
     {% endif %}
 </div>
+
 
 
 <script>
