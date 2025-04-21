@@ -89,6 +89,9 @@ def all_books(request):
                         "description": book_data["description"]
                     }
                 )
+                print("Created book:", book)
+                print("Book ID:", book.book_id)
+                print("List ID:", list_id)
 
                 # avoid duplicates in the list
                 if ListBooks.objects.filter(list_id=list_id, book_id=book.book_id).exists():

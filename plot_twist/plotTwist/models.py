@@ -2,20 +2,20 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+
 class BookDetails(models.Model):
-    book_id = models.IntegerField(primary_key=True)
-    title = models.TextField()
-    isbn = models.TextField()
-    pages = models.IntegerField(null=True)
-    date_published = models.DateField(null=True)
-    description = models.TextField(null=True)
-    average_rating = models.FloatField(null=True)
-    authors = models.TextField()
+    book_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=200)
+    authors = models.CharField(max_length=200)
+    isbn = models.CharField(max_length=20, unique=True)
+    pages = models.IntegerField(null=True, blank=True)
+    date_published = models.CharField(max_length=20, null=True, blank=True)
+    average_rating = models.FloatField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'book_details'
-        managed = False  # view, not a table
-
+        managed = True
 
 class ListBooks(models.Model):
     pk = models.CompositePrimaryKey('list_id', 'book_id')
