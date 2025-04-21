@@ -175,3 +175,30 @@ def remove_book(request, list_id, book_id):
         ListBooks.objects.filter(list_id=list_id, book_id=book_id).delete()
         messages.success(request, 'Book removed from list.')
     return redirect('view_lists')
+
+
+
+def book_detail(request, isbn):
+    # Check if the book is in the database first
+    book = BookDetails.objects.filter(isbn=isbn).first()
+
+    if not book:
+        # Fetch from Google Books API
+        response = requests.get(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}")
+        data = response.json()
+
+        if "items" in data:
+            info = data["items"][0]["volumeInfo"]
+            book = BookDetails.objects.create(
+                isbn=isbn,
+                title=info.get("title", "No title"),
+                authors=", ".join(info.get("authors", [])),
+                description=info.get("description", "No description"),
+                date_published=info.get("publishedDate", ""),
+                pages=info.get("pageCount", 0),
+                average_rating=info.get("averageRating", None),
+            )
+        else:
+            return render(request, "404.html", status=404)
+
+    return render(request, "book_detail.html", {"book": book})
