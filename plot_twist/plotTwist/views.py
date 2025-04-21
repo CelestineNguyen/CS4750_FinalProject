@@ -103,10 +103,10 @@ def all_books(request):
 
             return redirect("all_books")
 
-        return render(request, 'plotTwist/all_books.html', {
-            "books": books,
-            'user_lists': user_lists,
-        })
+    return render(request, 'plotTwist/all_books.html', {
+        "books": books,
+        'user_lists': user_lists,
+    })
 
 
 
