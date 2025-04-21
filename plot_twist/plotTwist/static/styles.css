@@ -417,3 +417,33 @@ nav form button:hover {
 .dropdown-button:hover {
     background-color: #5a3723;
 }
+
+.book-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline; /* this aligns text and X vertically */
+  padding: 0.2rem 0;
+}
+
+.book-list-item span {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.delete-book-btn {
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  color: #5c4033;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+
+button.delete-book-btn:hover {
+  color: red;
+  text-decoration: underline;
+}
