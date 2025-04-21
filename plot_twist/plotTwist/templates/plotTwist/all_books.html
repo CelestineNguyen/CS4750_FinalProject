@@ -82,57 +82,22 @@
         <p><strong>Rating:</strong> {{ book.average_rating }}</p>
         <p>{{ book.description }}</p>
 
-         <form method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="book_id" value="{{ book.book_id }}">
-            <label for="list_id_{{ book.book_id }}"
-                   style="display: block; margin-top: 12px; font-weight: bold; color: #e6d8b4;">
-                Add to List:
-            </label>
-            {% if user_lists %}
-                <select name="list_id" id="list_id_{{ book.book_id }}" aria-label="Select a list"
-                    style="
-                        width: 100%;
-                        max-width: 250px;
-                        height: 42px;
-                        padding: 10px 14px;
-                        border: 1px solid #a97e52;
-                        border-radius: 6px;
-                        font-size: 16px;
-                        font-family: 'Georgia', serif;
-                        background-color: #d2b48c;
-                        color: #4b2e1d;
-                        margin-top: 8px;
-                        margin-bottom: 12px;
-                        box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-                    ">
-                    <option value="" disabled selected style="color:#5c3b28;">Choose a list</option>
-                    {% for list in user_lists %}
-                        <option value="{{ list.list_id }}">{{ list.list_name }}</option>
-                    {% endfor %}
-                </select>
-            {% else %}
-                <p style="color: #f8eacb;">No lists available.</p>
-            {% endif %}
-            <button type="submit" title="Add this book to the selected list"
-                style="
-                    margin-top: 4px;
-                    padding: 8px 18px;
-                    font-size: 15px;
-                    font-family: 'Georgia', serif;
-                    background-color: #7b4f32;
-                    color: #fff7ec;
-                    border: none;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-                    transition: background-color 0.3s;
-                "
-                onmouseover="this.style.backgroundColor='#5a3723'"
-                onmouseout="this.style.backgroundColor='#7b4f32'">
-                Add
-            </button>
-        </form>
+        <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="book_id" value="{{ book.book_id }}">
+        <label for="list_id_{{ book.book_id }}" class="dropdown-label">Add to List:</label>
+        {% if user_lists %}
+            <select name="list_id" id="list_id_{{ book.book_id }}" class="dropdown-select">
+                <option value="" disabled selected>Choose a list</option>
+                {% for list in user_lists %}
+                    <option value="{{ list.list_id }}">{{ list.list_name }}</option>
+                {% endfor %}
+            </select>
+        {% else %}
+            <p class="dropdown-no-list">No lists available.</p>
+        {% endif %}
+        <button type="submit" class="dropdown-button">Add</button>
+    </form>
 
 
 

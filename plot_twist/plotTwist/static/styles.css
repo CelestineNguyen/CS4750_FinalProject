@@ -366,3 +366,54 @@ nav form button:hover {
     vertical-align: middle;
     display: inline-block;
 }
+
+.dropdown-label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+    color: #e6d8b4;
+    font-family: 'Georgia', serif;
+}
+
+.dropdown-select {
+    width: 100%;
+    max-width: 250px;
+    height: 42px;
+    padding: 10px 14px;
+    border: 1px solid #a97e52;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'Georgia', serif;
+    background-color: #d2b48c;
+    color: #4b2e1d;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-select option {
+    color: #5c3b28;
+}
+
+.dropdown-no-list {
+    color: #f8eacb;
+    font-family: 'Georgia', serif;
+}
+
+.dropdown-button {
+    margin-top: 4px;
+    padding: 8px 18px;
+    font-size: 15px;
+    font-family: 'Georgia', serif;
+    background-color: #7b4f32;
+    color: #fff7ec;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+.dropdown-button:hover {
+    background-color: #5a3723;
+}

@@ -29,9 +29,7 @@ def register(request):
 
 def all_books(request):
     print(f"logged-in user: {request.user}")
-    # will need to add logged in user once that gets working
     books = BookDetails.objects.all()
-    #user = Users.objects.get(user_id=6)
     user_lists = Lists.objects.filter(user=request.user)
 
     # Asked chat to help me to display all the lists of a signed in user and allow the user to add a book to one of
