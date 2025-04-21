@@ -62,7 +62,7 @@ def all_books(request):
             "isbn": isbn,
             "pages": volume_info.get("pageCount"),
             "date_published": volume_info.get("publishedDate"),
-            "average_rating": volume_info.get("averageRating", "N/A"),
+            "average_rating": volume_info.get("averageRating") or None,
             "description": volume_info.get("description", "No description available.")
         })
 
