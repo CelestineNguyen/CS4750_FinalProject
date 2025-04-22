@@ -32,8 +32,9 @@ urlpatterns = [
     path("books/", your_views.all_books, name="all_books"),
     path('lists/', your_views.view_lists, name='view_lists'),
     path('lists/<int:list_id>/rename/', your_views.rename_list, name='rename_list'),
-    path('lists/<int:list_id>/delete/', your_views.delete_list, name='delete_list'),  # ✅ Add this line
-    path('lists/<int:list_id>/remove/<int:book_id>/', your_views.remove_book, name='remove_book'), 
-
+    path('lists/<int:list_id>/delete/', your_views.delete_list, name='delete_list'),
+    path('lists/<int:list_id>/remove/<int:book_id>/', your_views.remove_book, name='remove_book'),
+    path("books/<str:isbn>/", your_views.book_detail, name="book_detail"),
+    path("reviews/delete/<int:review_id>/", your_views.delete_review, name="delete_review")
 
 ]

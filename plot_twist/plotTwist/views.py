@@ -6,11 +6,12 @@ from django.contrib import messages
 from django.db.models import Max 
 from .forms import CreateListForm
 from django.db.utils import IntegrityError
+from .forms import ReviewForm
 
 # Referenced: https://www.w3schools.com/django/django_views.php
 
 from django.shortcuts import render
-from .models import BookDetails, ListBooks, Lists, ListTypes, Users
+from .models import BookDetails, ListBooks, Lists, ListTypes, Users, Review
 
 
 def home(request):
@@ -185,3 +186,39 @@ def remove_book(request, list_id, book_id):
         ListBooks.objects.filter(list_id=list_id, book_id=book_id).delete()
         messages.success(request, 'Book removed from list.')
     return redirect('view_lists')
+
+
+def book_detail(request, isbn):
+    book = get_object_or_404(BookDetails, isbn=isbn)
+    reviews = Review.objects.filter(book=book).order_by('-created_at')
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            db_user = Users.objects.filter(username=user.username).first()
+            form.save(user=db_user, book=book)
+            return redirect('book_detail', isbn=book.isbn)
+    else:
+        form = ReviewForm()
+
+    return render(request, "book_detail.html", {
+        "book": book,
+        "reviews": reviews,
+        "form": form
+    })
+
+
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, pk=review_id)
+
+    if review.user.username != request.user.username:
+        messages.error(request, "You can only delete your own reviews.")
+        return redirect('book_detail', isbn=review.book.isbn)
+
+    if request.method == "POST":
+        review.delete()
+        messages.success(request, "Review deleted successfully.")
+        return redirect('book_detail', isbn=review.book.isbn)
+
+    return redirect('book_detail', isbn=review.book.isbn)
