@@ -488,3 +488,13 @@ button.delete-book-btn:hover {
 .lists-wrapper {
     padding-bottom: 3rem;
 }
+
+.book-container a {
+    color: #5c4033;  /* match your current brown */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.book-container a:hover {
+    text-decoration: underline;
+}
