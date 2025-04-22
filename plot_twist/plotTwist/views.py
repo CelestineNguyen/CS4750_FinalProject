@@ -188,17 +188,47 @@ def remove_book(request, list_id, book_id):
     return redirect('view_lists')
 
 
+def clean_date(date_str):
+    if not date_str:
+        return None
+    if len(date_str) == 4:
+        return f"{date_str}-01-01"
+    return date_str if len(date_str) >= 10 else None
+
+
 def book_detail(request, isbn):
     book = get_object_or_404(BookDetails, isbn=isbn)
     reviews = Review.objects.filter(book=book).order_by('-created_at')
+
+    from django.db import connection
 
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
             user = request.user
             db_user = Users.objects.filter(username=user.username).first()
+
+            # ⬇️ Ensure book is in real "books" table
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1 FROM books WHERE book_id = %s", [book.book_id])
+                if cursor.fetchone() is None:
+                    cursor.execute("""
+                        INSERT INTO books (book_id, title, isbn, pages, date_published, description, average_rating)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    """, [
+                        book.book_id,
+                        book.title or "Untitled",
+                        book.isbn,
+                        book.pages,
+                        clean_date(book.date_published),
+                        book.description,
+                        book.average_rating
+                    ])
+                    print(f"Inserted book_id {book.book_id} into books table.")
+
             form.save(user=db_user, book=book)
             return redirect('book_detail', isbn=book.isbn)
+
     else:
         form = ReviewForm()
 
