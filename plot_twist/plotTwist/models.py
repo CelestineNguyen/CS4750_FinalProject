@@ -61,8 +61,8 @@ class NytBestsellers(models.Model):
 
 class Review(models.Model):
     review_id = models.IntegerField(primary_key=True)
-    # book = models.ForeignKey(BookDetails, db_column='book_id', on_delete=models.DO_NOTHING)
-    book = models.ForeignKey(BookDetails, models.DO_NOTHING, blank=True, null=True)
+    book = models.ForeignKey(BookDetails, db_column='book_id', on_delete=models.DO_NOTHING)
+    # book = models.ForeignKey(BookDetails, models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
     rating = models.IntegerField(blank=True, null=True)
     review_text = models.TextField(blank=True, null=True)
