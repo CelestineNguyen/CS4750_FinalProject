@@ -82,10 +82,19 @@ def all_books(request):
 
 
         if list_id and book_data:
+            # Choose a fallback for missing ISBN
+            isbn = book_data["isbn"] or book_data["google_id"]
+            print("Trying to insert ISBN:", isbn)
+            print("Title:", book_data["title"])
+            print("List ID:", list_id)
+            if not isbn:
+                messages.error(request, "Book has no ISBN or Google ID and cannot be added.")
+                return redirect("all_books")
+
             try:
                 # save book to DB if not already there
                 book, created = BookDetails.objects.get_or_create(
-                    isbn=book_data["isbn"] or google_id,
+                    isbn=isbn,
                     defaults={
                         "title": book_data["title"],
                         "authors": book_data["authors"],
@@ -104,11 +113,12 @@ def all_books(request):
                     list_name = Lists.objects.get(list_id=list_id).list_name
                     messages.warning(request, f"This book is already in the list '{list_name}'.")
                 else:
-                    ListBooks.objects.create(list_id=list_id, book_id=book.book_id)
+                    ListBooks.objects.create(list=Lists.objects.get(list_id=list_id), book=book)
                     list_name = Lists.objects.get(list_id=list_id).list_name
                     messages.success(request, f"This book is now in the list '{list_name}'.")
 
-            except IntegrityError:
+            except Exception as e:
+                print("Failed to add book to list:", repr(e))
                 messages.error(request, f"Could not add the book to the list.")
 
             return redirect("all_books")
