@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<div class="book-container">
+    <h1>{{ book.title }}</h1>
+    <p><strong>Author(s):</strong> {{ book.authors }}</p>
+    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p><strong>Description:</strong> {{ book.description }}</p>
+    <p><strong>Pages:</strong> {{ book.pages }}</p>
+    <p><strong>Published:</strong> {{ book.date_published }}</p>
+    <p><strong>Rating:</strong> {{ book.average_rating }}</p>
+</div>
+
+
+<h2 style="text-align:center;">Leave a Review</h2>
+<form method="POST" class="review-form" style="max-width: 600px; margin: auto;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="dropdown-button">Submit Review</button>
+</form>
+
+
+<h2 style="text-align:center;">User Reviews</h2>
+{% if reviews %}
+    <div style="max-width: 600px; margin: auto;">
+        {% for review in reviews %}
+            <div class="book-container">
+                <p><strong>{{ review.user.username }}</strong> ({{ review.created_at }})</p>
+                <p>Rating: {{ review.rating }} / 5</p>
+                <p>{{ review.review_text }}</p>
+                {% if review.user.username == request.user.username %}
+                    <form method="POST" action="{% url 'delete_review' review.review_id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-book-btn">Delete</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p style="text-align:center;">No reviews yet.</p>
+{% endif %}
+{% endblock %}
