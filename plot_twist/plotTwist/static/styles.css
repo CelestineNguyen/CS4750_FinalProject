@@ -547,12 +547,6 @@ button.delete-book-btn:hover {
     color: #e6d8b4;
 }
 
-.review-form select,
-.review-form textarea {
-    width: 100%;
-}
-
-
 .review-form {
     display: flex;
     flex-direction: column;
@@ -561,11 +555,7 @@ button.delete-book-btn:hover {
     gap: 1rem;
 }
 
-.review-form label {
-    font-weight: bold;
-    font-family: 'Georgia', serif;
-    color: #e6d8b4;
-}
+
 
 .review-form select,
 .review-form textarea {
@@ -589,3 +579,4 @@ button.delete-book-btn:hover {
     font-family: 'Georgia', serif;
     box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
 }
+
