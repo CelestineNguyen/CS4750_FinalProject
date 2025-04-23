@@ -31,6 +31,8 @@ class ReviewForm(forms.ModelForm):
             'review_text': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Write your review...'}),
         }
 
+
+
     def save(self, commit=True, user=None, book=None):
         review = super().save(commit=False)
         review.user = user
