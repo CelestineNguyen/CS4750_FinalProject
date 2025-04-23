@@ -64,6 +64,9 @@ def all_books(request):
         if not isbn:
             continue # skip books without an ISBN_13
 
+        image_links = volume_info.get("imageLinks", {})
+        thumbnail = image_links.get("thumbnail")
+
         books.append({
             "google_id": item.get("id"),
             "title": volume_info.get("title", "Unknown"),
@@ -72,7 +75,8 @@ def all_books(request):
             "pages": volume_info.get("pageCount"),
             "date_published": volume_info.get("publishedDate"),
             "average_rating": volume_info.get("averageRating") or None,
-            "description": volume_info.get("description", "No description available.")
+            "description": volume_info.get("description", "No description available."),
+            "thumbnail": thumbnail
         })
 
     # Handle adding books to lists

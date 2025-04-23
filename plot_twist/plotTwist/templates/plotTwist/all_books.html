@@ -82,6 +82,9 @@
 {% for book in books %}
     <div class="book-container">
         <h2><a href="{% url 'book_detail' book.isbn %}">{{ book.title }}</a></h2>
+        {% if book.thumbnail %}
+            <img src="{{ book.thumbnail }}" alt="Book cover for {{ book.title }}">
+        {% endif %}
         <p><strong>Author(s):</strong> {{ book.authors }}</p>
         <p><strong>ISBN:</strong> {{ book.isbn }}</p>
         <p><strong>Pages:</strong> {{ book.pages }}</p>
