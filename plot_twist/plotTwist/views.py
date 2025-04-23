@@ -197,10 +197,40 @@ def clean_date(date_str):
 
 
 def book_detail(request, isbn):
-    book = get_object_or_404(BookDetails, isbn=isbn)
-    reviews = Review.objects.filter(book=book).order_by('-created_at')
-
     from django.db import connection
+    from django.http import Http404
+
+    try:
+        book = BookDetails.objects.get(isbn=isbn)
+    except BookDetails.DoesNotExist:
+        # Fetch from Google Books API
+        response = requests.get(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}")
+        items = response.json().get("items", [])
+        if not items:
+            raise Http404("Book not found.")
+
+        volume_info = items[0].get("volumeInfo", {})
+        title = volume_info.get("title", "Unknown")
+        authors = ", ".join(volume_info.get("authors", []))
+        pages = volume_info.get("pageCount")
+        date_published = volume_info.get("publishedDate")
+        average_rating = volume_info.get("averageRating")
+        description = volume_info.get("description", "No description available.")
+
+        # Save to BookDetails
+        book = BookDetails.objects.create(
+            title=title,
+            authors=authors,
+            isbn=isbn,
+            pages=pages,
+            date_published=date_published,
+            average_rating=average_rating,
+            description=description
+        )
+        print(f"[book_detail] Created local book record for: {isbn}")
+
+    # Get reviews for the book
+    reviews = Review.objects.filter(book=book).order_by('-created_at')
 
     if request.method == "POST":
         form = ReviewForm(request.POST)
@@ -208,7 +238,7 @@ def book_detail(request, isbn):
             user = request.user
             db_user = Users.objects.filter(username=user.username).first()
 
-            # ⬇️ Ensure book is in real "books" table
+            # Ensure book exists in the raw "books" table for legacy reviews
             with connection.cursor() as cursor:
                 cursor.execute("SELECT 1 FROM books WHERE book_id = %s", [book.book_id])
                 if cursor.fetchone() is None:
@@ -228,7 +258,6 @@ def book_detail(request, isbn):
 
             form.save(user=db_user, book=book)
             return redirect('book_detail', isbn=book.isbn)
-
     else:
         form = ReviewForm()
 
@@ -237,6 +266,7 @@ def book_detail(request, isbn):
         "reviews": reviews,
         "form": form
     })
+
 
 
 def delete_review(request, review_id):

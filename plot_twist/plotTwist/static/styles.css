@@ -539,13 +539,7 @@ button.delete-book-btn:hover {
 }
 
 
-.review-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 600px;
-    margin: 0 auto 2rem auto;
-    gap: 1rem;
-}
+
 
 .review-form label {
     font-weight: bold;
