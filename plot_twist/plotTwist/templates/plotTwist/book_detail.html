@@ -12,32 +12,33 @@
     <p><strong>Rating:</strong> {{ book.average_rating }}</p>
 </div>
 
-
-<h2 style="text-align:center;">Leave a Review</h2>
-<form method="POST" class="review-form" style="max-width: 600px; margin: auto;">
+<h2 style="text-align:center; margin-top: 3rem;">Leave a Review</h2>
+<form method="POST" class="review-form">
     {% csrf_token %}
-    {{ form.as_p }}
+    <label for="{{ form.rating.id_for_label }}">Rating:</label>
+    {{ form.rating }}
+
+    <label for="{{ form.review_text.id_for_label }}">Review text:</label>
+    {{ form.review_text }}
+
     <button type="submit" class="dropdown-button">Submit Review</button>
 </form>
 
-
-<h2 style="text-align:center;">User Reviews</h2>
+<h2 style="text-align:center; margin-top: 3rem;">User Reviews</h2>
 {% if reviews %}
-    <div style="max-width: 600px; margin: auto;">
-        {% for review in reviews %}
-            <div class="book-container">
-                <p><strong>{{ review.user.username }}</strong> ({{ review.created_at }})</p>
-                <p>Rating: {{ review.rating }} / 5</p>
-                <p>{{ review.review_text }}</p>
-                {% if review.user.username == request.user.username %}
-                    <form method="POST" action="{% url 'delete_review' review.review_id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="delete-book-btn">Delete</button>
-                    </form>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
+    {% for review in reviews %}
+        <div class="review-box">
+            <p><strong>{{ review.user.username }}</strong> ({{ review.created_at }})</p>
+            <p><strong>Rating:</strong> {{ review.rating }} / 5</p>
+            <p>{{ review.review_text }}</p>
+            {% if review.user.username == request.user.username %}
+                <form method="POST" action="{% url 'delete_review' review.review_id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-book-btn">Delete</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
 {% else %}
     <p style="text-align:center;">No reviews yet.</p>
 {% endif %}
