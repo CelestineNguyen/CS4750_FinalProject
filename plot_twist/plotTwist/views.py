@@ -61,6 +61,8 @@ def all_books(request):
         volume_info = item.get("volumeInfo", {})
         industry_ids = volume_info.get("industryIdentifiers", [])
         isbn = next((id['identifier'] for id in industry_ids if id['type'] == 'ISBN_13'), None)
+        if not isbn:
+            continue # skip books without an ISBN_13
 
         books.append({
             "google_id": item.get("id"),
